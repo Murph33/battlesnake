@@ -102,6 +102,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  json
   rails (= 4.2.2)
   rails-api
   spring
