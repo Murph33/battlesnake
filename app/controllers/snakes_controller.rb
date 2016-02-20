@@ -17,11 +17,13 @@ class SnakesController < ApplicationController
   end
 
   def move
+
+    our_snake = params{snakes}.find { |snake| snake[:id] == Snake.SNAKE_ID }
+
     response_object = {
       move: "north",
       taunt: "we're doing it"
     }
-
     render json: response_object
   end
 end
