@@ -26,9 +26,9 @@ class Board < GameObject
   end
 
   def position_is_safe?(x, y)
-    position_out_of_bounds?(x, y) ||
-    walls.any? { |wall| wall.same_position?(x, y) } ||
-    snake.any { |wall| wall.same_position?(x, y) }
+    !position_out_of_bounds?(x, y) ||
+    walls.none? { |wall| wall.same_position?(x, y) } ||
+    snake.none? { |wall| wall.same_position?(x, y) }
   end
 
   private
