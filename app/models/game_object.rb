@@ -1,6 +1,6 @@
 class GameObject
   def initialize(attributes = {})
-    self.new.assign_attributes attributes
+    assign_attributes attributes
   end
 
   def assign_attributes(attributes = {})
