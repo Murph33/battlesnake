@@ -1,0 +1,3 @@
+class Food < BoardObject
+
+end
