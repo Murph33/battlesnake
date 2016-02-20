@@ -9,8 +9,9 @@ gem 'spring', :group => :development
 
 gem 'json'
 
-gem 'sqlite3'
+gem 'pg'
 
+gem 'pry-byebug'
 
 
 # To use ActiveModel has_secure_password
