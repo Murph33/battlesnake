@@ -10,26 +10,23 @@ class SnakesController < ApplicationController
   end
 
   def start
-    board = Board.new params.keep_if { |k, v| board_params.include? k }
-    our_snake = Board.our_snake
     response_object = {
       taunt: "BONESAW IS READY!!"
     }
-
-
 
     render json: response_object
   end
 
   def move
-
-    our_snake_hash = params{snakes}.find { |snake| snake[:id] == Snake.SNAKE_ID }
-    our_snake = Snake.new(our_snake_hash[:coords][0], our_snake_hash[:coords][1..-1])
+    board = Board.new params.keep_if { |k, v| board_params.include? k }
+    our_snake = Board.our_snake
+    move = our_snake.want_to_move(board)
 
     response_object = {
-      move: "north",
+      move: move
       taunt: "we're doing it"
     }
+
     render json: response_object
   end
 
@@ -37,9 +34,5 @@ class SnakesController < ApplicationController
 
   def board_params
     [:width, :height, :snakes, :food, :walls, :gold]
-  end
-
-  def our_snake
-    snake_data = params[:snakes].find { |snake| snake[:id] == Snake::SNAKE_ID }
   end
 end

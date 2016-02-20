@@ -8,20 +8,20 @@ class Board < GameObject
   end
 
   def food=(food_data)
-    food_data.map do |food_attributes|
-      FoodItem.new food_attributes
+    food_data.map do |coordinants|
+      FoodItem.new x_position: coordinants[0], y_postion: coordinants[1]
     end
   end
 
   def walls=(wall_data)
     wall_data.map do |wall_attributes|
-      Wall.new wall_attributes
+      Wall.new x_position: coordinants[0], y_postion: coordinants[1]
     end
   end
 
   def gold=(gold_data)
     gold_data.map do |gold_attributes|
-      GoldPiece.new gold_attributes
+      GoldPiece.new Wall.new x_position: coordinants[0], y_postion: coordinants[1]
     end
   end
 
