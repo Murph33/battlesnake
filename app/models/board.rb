@@ -3,7 +3,7 @@ class Board < GameObject
 
   def snakes=(snake_data)
     snake_data.map do |snake_attributes|
-      Snake.new snake_attributes
+      Snake.new snake_attributes[:coords].shift, snake_attributes[:coords], snake_attributes[:id]
     end
   end
 
@@ -29,6 +29,10 @@ class Board < GameObject
     !position_out_of_bounds?(x, y) ||
     walls.none? { |wall| wall.same_position?(x, y) } ||
     snake.none? { |wall| wall.same_position?(x, y) }
+  end
+
+  def our_snake
+    snakes.detect { |snake| snake.id == Snake::SNAKE_ID }
   end
 
   private

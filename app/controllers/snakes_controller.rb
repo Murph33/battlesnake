@@ -11,6 +11,7 @@ class SnakesController < ApplicationController
 
   def start
     board = Board.new params.keep_if { |k, v| board_params.include? k }
+    our_snake = Board.our_snake
     response_object = {
       taunt: "BONESAW IS READY!!"
     }
@@ -24,7 +25,7 @@ class SnakesController < ApplicationController
 
     our_snake_hash = params{snakes}.find { |snake| snake[:id] == Snake.SNAKE_ID }
     our_snake = Snake.new(our_snake_hash[:coords][0], our_snake_hash[:coords][1..-1])
-    
+
     response_object = {
       move: "north",
       taunt: "we're doing it"
@@ -36,5 +37,9 @@ class SnakesController < ApplicationController
 
   def board_params
     [:width, :height, :snakes, :food, :walls, :gold]
+  end
+
+  def our_snake
+    snake_data = params[:snakes].find { |snake| snake[:id] == Snake::SNAKE_ID }
   end
 end
