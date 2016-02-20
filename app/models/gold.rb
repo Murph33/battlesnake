@@ -1,3 +1,0 @@
-class Gold < BoardObject
-
-end
