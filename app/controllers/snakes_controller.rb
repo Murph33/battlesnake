@@ -2,7 +2,7 @@ class SnakesController < ApplicationController
 
   def setup
     response_object = {
-      color: "#fff000"
+      color: "#fff000",
       head: 'https://www.placecage.com/20/20'
     }
 
@@ -23,7 +23,7 @@ class SnakesController < ApplicationController
     move = our_snake.want_to_move(board)
 
     response_object = {
-      move: move
+      move: move,
       taunt: "we're doing it"
     }
 
