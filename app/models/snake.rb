@@ -36,4 +36,10 @@ class Snake
     y_distance_from_center = (board.height) / 2 - @head[0]
     x_distance_from_center = (board.width) / 2 - @head[1]
   end
+
+  def same_position?(x, y)
+    [head, body].flatten(1).any? do |coordinants|
+      coordinants[0] == x && coordinants[1] == y
+    end
+  end
 end
