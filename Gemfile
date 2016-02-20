@@ -9,8 +9,7 @@ gem 'spring', :group => :development
 
 gem 'json'
 
-
-
+gem 'pg'
 
 
 # To use ActiveModel has_secure_password
