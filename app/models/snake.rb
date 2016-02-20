@@ -4,7 +4,7 @@ class Snake
 
   attr_reader :head, :body
 
-  def initialize(head= nil, body= nil)
+  def initialize(head= nil, body= nil, id = nil)
     @head = head
     @body = body
   end
