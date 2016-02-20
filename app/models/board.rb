@@ -19,9 +19,21 @@ class Board < GameObject
     end
   end
 
-  def golds=(gold_data)
+  def gold=(gold_data)
     gold_data.map do |gold_attributes|
       GoldPiece.new gold_attributes
     end
+  end
+
+  def position_is_safe?(x, y)
+    !position_out_of_bounds?(x, y) ||
+    walls.none? { |wall| wall.same_position?(x, y) } ||
+    snake.none? { |wall| wall.same_position?(x, y) }
+  end
+
+  private
+
+  def posiion_out_of_bounds?(x, y)
+    x < 0 || y < 0 || x > width || y > height
   end
 end
