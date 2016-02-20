@@ -4,4 +4,7 @@ class Snake < ActiveRecord::Base
 
 
 
+  def is_safe
+
+
 end
