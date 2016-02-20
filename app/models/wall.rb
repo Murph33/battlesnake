@@ -1,3 +1,2 @@
 class Wall < BoardObject
-
 end

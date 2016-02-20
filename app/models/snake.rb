@@ -4,7 +4,7 @@ class Snake
 
   attr_reader :head, :body, :south_tried, :north_tried, :west_tried, :east_tried
 
-  def initialize(head= nil, body= nil)
+  def initialize(head= nil, body= nil, id= nil)
     @head = head
     @body = body
     @south_tried = false
@@ -82,6 +82,12 @@ class Snake
           self.want_to_move board
         end
       end
+    end
+  end
+
+  def same_position?(x, y)
+    [head, body].flatten(1).any? do |coordinants|
+      coordinants[0] == x && coordinants[1] == y
     end
   end
 end
