@@ -15,4 +15,10 @@ class Board
       attributes.each { |key, value| self.send "#{ key }=", value }
     end
   end
+
+  def snakes=(snake_data)
+    snake_data.map do |snake_attributes|
+      Snake.new snake_attributes
+    end
+  end
 end
