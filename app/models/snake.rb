@@ -2,11 +2,15 @@ class Snake
 
   SNAKE_ID = "5d936817-6c91-4708-99c9-c7e77f61fcf7"
 
-  attr_reader :head, :body
+  attr_reader :head, :body, :south_tried, :north_tried, :west_tried, :east_tried
 
   def initialize(head= nil, body= nil)
     @head = head
     @body = body
+    @south_tried = false
+    @north_tried = false
+    @west_tried = false
+    @east_tried = false
   end
 
   def attempted_move direction
@@ -39,18 +43,45 @@ class Snake
     x_distance_from_center = (board.width) / 2 - @head[1]
 
     if y_distance_from_center > x_distance_from_center
-      if y_midpoint > @head[0]
+      if (y_midpoint > @head[0] && !@south_tried)
+        @south_tried = true
         move = "S"
         coordinates = self.attempted_move(move)
         if board.position_is_safe?(coordinates)
-          
-
-      else
-        "N"
+          "south"
+        else
+          self.want_to_move board
+        end
+      elsif !@north_tried
+        @north_tried = true
+        move = "N"
+        coordinates = self.attempted_move(move)
+        if board.position_is_safe?(coordinates)
+          "north"
+        else
+          self.want_to_move board
+        end
       end
     else
-      if x_midpoint > @head[1]
-
-
+      if x_midpoint > @head[1] && !@west_tried
+        @west_tried = true
+        move = "W"
+        coordinates = self.attempted_move(move)
+        if board.position_is_safe?(coordinates)
+          "west"
+        else
+          self.want_to_move board
+        end
+      elsif !@east_tried
+        @east_tried = true
+        move = "E"
+        coordinates = self.attempted_move(move)
+        if board.position_is_safe?(coordinates)
+          "east"
+        else
+          self.want_to_move board
+        end
+      end
+    end
   end
 end
