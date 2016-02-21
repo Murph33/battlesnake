@@ -26,7 +26,6 @@ class SnakesController < ApplicationController
       move: move,
       taunt: "we're doing it"
     }
-
     render json: response_object
   end
 
