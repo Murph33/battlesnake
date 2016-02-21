@@ -19,7 +19,7 @@ class SnakesController < ApplicationController
 
   def move
     board = Board.new params.keep_if { |k, v| board_params.include? k }
-    our_snake = Board.our_snake
+    our_snake = board.our_snake
     move = our_snake.want_to_move(board)
 
     response_object = {
