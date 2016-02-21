@@ -42,6 +42,10 @@ class Snake
     y_distance_from_center = (board.height) / 2 - @head[1]
     x_distance_from_center = (board.width) / 2 - @head[0]
 
+    if @north_tried && @south_tried && @west_tried && @east_tried
+      return nil
+    end
+
     if (y_distance_from_center > x_distance_from_center) || (@west_tried && @east_tried)
       if (y_midpoint > @head[1] && !@south_tried)
         @south_tried = true
