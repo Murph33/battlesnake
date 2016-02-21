@@ -52,22 +52,22 @@ class Snake
         move = "S"
         coordinates = self.attempted_move(move)
         if board.position_is_safe?(coordinates[0], coordinates[1])
-          "south"
+          return "south"
         else
           self.want_to_move board
         end
       elsif @west_tried && @east_tried && @south_tried
-        "north"
+        return "north"
       end
     end
-
+    binding.pry
     if (y_distance_from_center > x_distance_from_center) && @south_tried
       if x_midpoint > @head[0] && !@west_tried
         @west_tried = true
         move = "W"
         coordinates = self.attempted_move(move)
         if board.position_is_safe?(coordinates[0], coordinates[1])
-          "west"
+          return "west"
         else
           self.want_to_move board
         end
@@ -76,7 +76,7 @@ class Snake
         move = "E"
         coordinates = self.attempted_move(move)
         if board.position_is_safe?(coordinates[0], coordinates[1])
-          "east"
+          return "east"
         else
           self.want_to_move board
         end
@@ -90,13 +90,13 @@ class Snake
         @west_tried = true
         move = "W"
         coordinates = self.attempted_move(move)
-        if board.position_is_safe(coordinates[0], coordinates[1])
-          "west"
+        if board.position_is_safe?(coordinates[0], coordinates[1])
+          return "west"
         else
           self.want_to_move board
         end
       elsif @north_tried && @west_tried && @south_tried
-        'east'
+        return 'east'
       end
     end
 
@@ -106,16 +106,16 @@ class Snake
         move = "S"
         coordinates = self.attempted_move(move)
         if board.position_is_safe?(coordinates[0], coordinates[1])
-          "south"
+          return "south"
         else
           self.want_to_move board
         end
       elsif !@north_tried
         @north_tried = true
-        move "N"
+        move = "N"
         coordinates = self.attempted_move(move)
         if board.position_is_safe?(coordinates[0], coordinates[1])
-          'north'
+          return 'north'
         else
           self.want_to_move board
         end
