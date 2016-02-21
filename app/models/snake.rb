@@ -43,7 +43,7 @@ class Snake
     x_distance_from_center = (board.width) / 2 - @head[0]
 
     if (y_distance_from_center > x_distance_from_center) || (@west_tried && @east_tried)
-      if (y_midpoint > @head[0] && !@south_tried)
+      if (y_midpoint > @head[1] && !@south_tried)
         @south_tried = true
         move = "S"
         coordinates = self.attempted_move(move)
@@ -52,17 +52,12 @@ class Snake
         else
           self.want_to_move board
         end
-      elsif !@north_tried
-        @north_tried = true
-        move = "N"
-        coordinates = self.attempted_move(move)
-        if board.position_is_safe?(coordinates[0], coordinates[1])
-          "north"
-        else
-          self.want_to_move board
-        end
+      elsif @west_tried && @east_tried && @south_tried
+        "north"
       end
-    else
+    end
+
+    if (y_distance_from_center > x_distance_from_center) && @south_tried
       if x_midpoint > @head[0] && !@west_tried
         @west_tried = true
         move = "W"
@@ -81,6 +76,47 @@ class Snake
         else
           self.want_to_move board
         end
+      else
+        self.want_to_move board
+      end
+    end
+
+    if (x_distance_from_center > y_distance_from_center) || (@north_tried && @south_tried)
+      if x_midpoint > @head[0] && !@west_tried
+        @west_tried = true
+        move = "W"
+        coordinates = self.attempted_move(move)
+        if board.position_is_safe(coordinates[0], coordinates[1])
+          "west"
+        else
+          self.want_to_move board
+        end
+      elsif @north_tried && @west_tried && @south_tried
+        'east'
+      end
+    end
+
+    if (x_distance_from_center > y_distance_from_center) && @west_tried
+      if y_midpoint > @head[1] && !@south_tried
+        @south_tried = true
+        move = "S"
+        coordinates = self.attempted_move(move)
+        if board.position_is_safe?(coordinates[0], coordinates[1])
+          "south"
+        else
+          self.want_to_move board
+        end
+      elsif !@north_tried
+        @north_tried = true
+        move "N"
+        coordinates = self.attempted_move(move)
+        if board.position_is_safe?(coordinates[0], coordinates[1])
+          'north'
+        else
+          self.want_to_move board
+        end
+      else
+        self.want_to_move board
       end
     end
   end
