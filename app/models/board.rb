@@ -37,7 +37,7 @@ class Board < GameObject
 
   private
 
-  def posiion_out_of_bounds?(x, y)
+  def position_out_of_bounds?(x, y)
     x < 0 || y < 0 || x > width || y > height
   end
 end

@@ -14,40 +14,40 @@ class Snake
   end
 
   def attempted_move direction
-    y_position = @head[0]
-    x_position = @head[1]
+    y_position = @head[1]
+    x_position = @head[0]
     case direction
     when "N"
       new_y_position = y_position - 1
       new_x_position = x_position
-      [new_y_position, new_x_position]
+      [new_x_position, new_y_position]
     when "S"
       new_y_position = y_position + 1
       new_x_position = x_position
-      [new_y_position, new_x_position]
+      [new_x_position, new_y_position]
     when "E"
       new_y_position = y_position
       new_x_position = x_position + 1
-      [new_y_position, new_x_position]
+      [new_x_position, new_y_position]
     when "W"
       new_y_position = y_position
       new_x_position = x_position - 1
-      [new_y_position, new_x_position]
+      [new_x_position, new_y_position]
     end
   end
 
   def want_to_move board
     y_midpoint = board.height / 2
     x_midpoint = board.width / 2
-    y_distance_from_center = (board.height) / 2 - @head[0]
-    x_distance_from_center = (board.width) / 2 - @head[1]
+    y_distance_from_center = (board.height) / 2 - @head[1]
+    x_distance_from_center = (board.width) / 2 - @head[0]
 
-    if y_distance_from_center > x_distance_from_center
+    if (y_distance_from_center > x_distance_from_center) || (@west_tried && @east_tried)
       if (y_midpoint > @head[0] && !@south_tried)
         @south_tried = true
         move = "S"
         coordinates = self.attempted_move(move)
-        if board.position_is_safe?(coordinates)
+        if board.position_is_safe?(coordinates[0], coordinates[1])
           "south"
         else
           self.want_to_move board
@@ -56,18 +56,18 @@ class Snake
         @north_tried = true
         move = "N"
         coordinates = self.attempted_move(move)
-        if board.position_is_safe?(coordinates)
+        if board.position_is_safe?(coordinates[0], coordinates[1])
           "north"
         else
           self.want_to_move board
         end
       end
     else
-      if x_midpoint > @head[1] && !@west_tried
+      if x_midpoint > @head[0] && !@west_tried
         @west_tried = true
         move = "W"
         coordinates = self.attempted_move(move)
-        if board.position_is_safe?(coordinates)
+        if board.position_is_safe?(coordinates[0], coordinates[1])
           "west"
         else
           self.want_to_move board
@@ -76,7 +76,7 @@ class Snake
         @east_tried = true
         move = "E"
         coordinates = self.attempted_move(move)
-        if board.position_is_safe?(coordinates)
+        if board.position_is_safe?(coordinates[0], coordinates[1])
           "east"
         else
           self.want_to_move board
