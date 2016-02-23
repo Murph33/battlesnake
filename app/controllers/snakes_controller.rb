@@ -32,7 +32,7 @@ class SnakesController < ApplicationController
     move = snake.want_to_move(board)
     response_object = {
       move: move,
-      taunt: "we're doing it"
+      taunt: "we're doing it2"
     }
     render json: response_object
   end
