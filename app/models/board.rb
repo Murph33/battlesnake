@@ -2,25 +2,25 @@ class Board < GameObject
   attr_accessor :width, :height, :snakes, :food, :walls, :gold
 
   def snakes=(snake_data)
-    snake_data.map do |snake_attributes|
+    @snakes = snake_data.map do |snake_attributes|
       Snake.new snake_attributes[:coords].shift, snake_attributes[:coords], snake_attributes[:id]
     end
   end
 
   def food=(food_data)
-    food_data.map do |coordinants|
+    @food = food_data.map do |coordinants|
       FoodItem.new x_position: coordinants[0], y_postion: coordinants[1]
     end
   end
 
   def walls=(wall_data)
-    wall_data.map do |wall_attributes|
+    @walls = wall_data.map do |coordinants|
       Wall.new x_position: coordinants[0], y_postion: coordinants[1]
     end
   end
 
   def gold=(gold_data)
-    gold_data.map do |gold_attributes|
+    @gold = gold_data.map do |coordinants|
       GoldPiece.new Wall.new x_position: coordinants[0], y_postion: coordinants[1]
     end
   end
