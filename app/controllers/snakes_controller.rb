@@ -18,7 +18,10 @@ class SnakesController < ApplicationController
   end
 
   def move
-    board = Board.new params.keep_if { |k, v| board_params.include? k }
+    board = Board.new
+    params["walls"].each { |wall| board.walls.push wall }
+    params["food"].each { |food| board.food.push food }
+    params["gold"].each { |gold| board.gold.push gold }
     our_snake = board.our_snake
     move = our_snake.want_to_move(board)
 
@@ -27,11 +30,5 @@ class SnakesController < ApplicationController
       taunt: "we're doing it2"
     }
     render json: response_object
-  end
-
-  private
-
-  def board_params
-    %w(width height snakes food walls gold)
   end
 end
