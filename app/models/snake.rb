@@ -44,12 +44,45 @@ class Snake
     end
   end
 
-  def want_to_move board
 
+  def south_safe?
+    @south_tried = true
+    coordinates = self.attempted_move("S")
+    board.position_is_safe?(coordinates)
+  end
+
+  def west_safe?
+    @west_tried = true
+    coordinates = self.attempted_move("W")
+    board.position_is_safe?(coordinates)
+  end
+
+  def east_safe?
+    @east_tried = true
+    coordinates = self.attempted_move("E")
+    board.position_is_safe?(coordinates)
+  end
+
+  def north_safe?
+    @north_tried = true
+    coordinates = self.attempted_move("N")
+    board.position_is_safe?(coordinates)
+  end
+
+  def order_to_middle
+    order = []
     y_midpoint = board.height / 2
     x_midpoint = board.width / 2
-    y_distance_from_center = y_midpoint - @head[1]
-    x_distance_from_center = x_midpoint - @head[0]
+
+    order.push "west" if @head[0] > x_midpoint
+    order.push "east" if @head[0] < x_midpoint
+    order.push "north" if @head[1] > y_midpoint
+    order.push "south" if @head[1] < y_midpoint
+    order.shuffle
+  end
+
+  def want_to_move board
+
 
     if @north_tried && @south_tried && @west_tried && @east_tried
       return nil
@@ -57,6 +90,8 @@ class Snake
 
     if (y_distance_from_center > x_distance_from_center) || (@west_tried && @east_tried)
       if (y_midpoint > @head[1] && !@south_tried)
+
+
 
         @south_tried = true
         move = "S"
