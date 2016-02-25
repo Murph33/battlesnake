@@ -40,19 +40,9 @@ class Snake
 
 
   def move(board)
-# 
-    order_to_middle(board).select { |direction| self.send "#{direction}_safe?", board }[0]
-
+    coords = [board.width / 2, board.height / 2]
+    desired_direction_order(coords).select { |direction| self.send "#{direction}_safe?", board }[0]
   end
-  # case direction
-  # when "north"
-  #   return "north" if north_safe? board
-  # when "west"
-  #   return "west" if west_safe? board
-  # when "east"
-  #   return "east" if east_safe? board
-  # when "south"
-  #   return "south" if south_safe? board
 
 
   def same_position?(x, y)
@@ -87,20 +77,30 @@ class Snake
     board.position_is_safe?(coordinates)
   end
 
-  def order_to_middle board
+  def desired_direction_order coords
     order = []
-    y_midpoint = board.height / 2
-    x_midpoint = board.width / 2
+    y_desired = coords[1]
+    x_desired = coords[0]
 
-    order.push "west" if @head[0] > x_midpoint
-    order.push "east" if @head[0] < x_midpoint
-    order.push "north" if @head[1] > y_midpoint
-    order.push "south" if @head[1] < y_midpoint
+    order.push "west" if @head[0] > x_desired
+    order.push "east" if @head[0] < x_desired
+    order.push "north" if @head[1] > y_desired
+    order.push "south" if @head[1] < y_desired
     order.shuffle!
     add_these = %w(north east south west).select { |word| !order.include? word }
     add_these.each { |word| order.push word }
     order
   end
+
+  # case direction
+  # when "north"
+  #   return "north" if north_safe? board
+  # when "west"
+  #   return "west" if west_safe? board
+  # when "east"
+  #   return "east" if east_safe? board
+  # when "south"
+  #   return "south" if south_safe? board
 
 
 end

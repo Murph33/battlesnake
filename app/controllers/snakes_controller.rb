@@ -30,6 +30,7 @@ class SnakesController < ApplicationController
     board.width = params["width"]
     enemy_snake_params.each { |params| params["coords"].each { |coord| board.snakes.push coord } }
     move = our_snake.move board
+    taunt = board.closest_food [5,5]
 
     # walls: board.walls,
     # food: board.food,
@@ -38,7 +39,7 @@ class SnakesController < ApplicationController
     # enemy_snake: board.snakes
     response_object = {
       move: move,
-      taunt: "we're doing it2"
+      taunt: taunt
     }
     render json: response_object
   end
