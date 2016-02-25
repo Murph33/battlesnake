@@ -2,10 +2,11 @@ Rails.application.routes.draw do
 
 root to: 'snakes#setup'
 
-post "/start" => "snakes#start"
+post "/start", to: "snakes#start"
 
-post "/move" => "snakes#move" 
+post "/move", to: "snakes#move"
 
+post "/end", to: "snakes#end"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
