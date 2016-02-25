@@ -24,7 +24,7 @@ class SnakesController < ApplicationController
     board = Board.new
     params["walls"].each { |wall| board.walls.push wall }
     params["food"].each { |food| board.food.push food }
-    params["gold"].each { |gold| board.gold.push gold }
+    params["gold"].each { |gold| board.gold.push gold } if params["gold"]
     params["snakes"].each { |snake| snake["coords"].each { |coord| board.snakes.push coord } }
     board.height = params["height"]
     board.width = params["width"]
