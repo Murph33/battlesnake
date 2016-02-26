@@ -2,12 +2,13 @@
 class Snake
   SNAKE_ID = "5d936817-6c91-4708-99c9-c7e77f61fcf7"
 
-  attr_reader :id, :head, :body, :south_tried, :north_tried, :west_tried, :east_tried
+  attr_reader :id, :head, :body, :health, :south_tried, :north_tried, :west_tried, :east_tried
 
-  def initialize(head = nil, body = nil, id=nil)
+  def initialize(head = nil, body = nil, id=nil, health=nil)
     @head = head
     @body = body
     @id = id
+    @health = health
     @south_tried = false
     @north_tried = false
     @west_tried = false

@@ -20,7 +20,7 @@ class SnakesController < ApplicationController
   def move
     enemy_snake_params = params["snakes"].select { |snake| snake["id"] != Snake::SNAKE_ID }
     our_snake_params = params["snakes"].find { |snake| snake["id"] == Snake::SNAKE_ID }
-    our_snake = Snake.new our_snake_params[:coords][0], our_snake_params[:coords][1..-1], our_snake_params[:id]
+    our_snake = Snake.new our_snake_params[:coords][0], our_snake_params[:coords][1..-1], our_snake_params[:id], our_snake_params[:health]
     board = Board.new
     params["walls"].each { |wall| board.walls.push wall } if params["walls"]
     params["food"].each { |food| board.food.push food } if params["food"]
