@@ -41,8 +41,9 @@ class Snake
 
 
   def move(board)
-    coords = [board.width / 2, board.height / 2]
-    desired_direction_order(coords).select { |direction| self.send "#{direction}_safe?", board }[0]
+    # coords = [board.width / 2, board.height / 2]
+    # desired_direction_order(coords).select { |direction| self.send "#{direction}_safe?", board }[0]
+    desired_direction_order(priorities(board)).select { |direction| self.send "#{direction}_safe?", board }[0]
   end
 
 
@@ -76,6 +77,12 @@ class Snake
     @north_tried = true
     coordinates = self.attempted_move("N")
     board.position_is_safe?(coordinates)
+  end
+
+  def priorities board
+    return board.gold.first if board.gold.any?
+    return board.closest_food(@head) if health <= 95
+    [board.width / 2, board.height / 2]
   end
 
   def desired_direction_order coords

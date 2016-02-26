@@ -18,8 +18,8 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: db/test.postgresql
+  database: battle_test
 
 production:
   <<: *default
-  database: db/production.postgresql
+  database: battle_production

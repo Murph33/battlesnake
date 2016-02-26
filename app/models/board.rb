@@ -26,10 +26,11 @@ class Board < GameObject
     food_with_distance = @food.map do |food_coord|
       x_diff = food_coord[0] - coords[0]
       y_diff = food_coord[1] - coords[1]
-      total_diff = x_diff + y_diff
+      total_diff = x_diff.abs + y_diff.abs
       food_coord + [total_diff]
     end
-    food_with_distance.sort_by { |arr| arr[2].abs }[0]
+    ordered_food = food_with_distance.sort_by { |arr| arr[2].abs }
+    ordered_food[0]
   end
 
   private
