@@ -39,6 +39,8 @@ class SnakesController < ApplicationController
     # gold: board.gold,
     # our_snake: our_snake,
     # enemy_snake: board.snakes
+    puts our_snake.inspect
+    puts board.inspect
     response_object = {
       move: move,
       taunt: taunt
@@ -54,3 +56,20 @@ class SnakesController < ApplicationController
     render json: response_object
   end
 end
+
+# OTHER SNAKE
+
+# ,
+#     {
+#       "id": "5d936817-6c91-4708-99c9-c7e77f61fcf7ggggggg",
+#       "name": "Well Documented Snake",
+#       "status": "alive",
+#       "message": "Moved north",
+#       "taunt": "Let's rock!",
+#       "age": 56,
+#       "health": 83,
+#       "coords": [ [0, 1], [0, 2], [0, 3], [0, 4] ],
+#       "kills": 4,
+#       "food": 12,
+#       "gold": 2
+#       }

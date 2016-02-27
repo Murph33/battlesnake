@@ -66,7 +66,7 @@ class Snake
     coordinates = self.attempted_move("S")
     @unpreferred_direction_head.push('south') if board.enemy_head_adjacent?(coordinates)
     if board.position_is_safe?(coordinates)
-      if board.south_safe.length < 10
+      if board.south_safe.length < 15
         @unpreferred_direction.push('south')
       elsif !@unpreferred_direction_head.include?('south')
         @preferred_direction.push('south')
@@ -79,7 +79,7 @@ class Snake
     coordinates = self.attempted_move("W")
     @unpreferred_direction_head.push('west') if board.enemy_head_adjacent?(coordinates)
     if board.position_is_safe?(coordinates)
-      if board.west_safe.length < 10
+      if board.west_safe.length < 15
         @unpreferred_direction.push('west')
       elsif !@unpreferred_direction_head.include?('west')
         @preferred_direction.push('west')
@@ -92,7 +92,7 @@ class Snake
     coordinates = self.attempted_move("E")
     @unpreferred_direction_head.push('east') if board.enemy_head_adjacent?(coordinates)
     if board.position_is_safe?(coordinates)
-      if board.east_safe.length < 10
+      if board.east_safe.length < 15
         @unpreferred_direction.push('east')
       elsif !@unpreferred_direction_head.include?('east')
         @preferred_direction.push('east')
@@ -105,7 +105,7 @@ class Snake
     coordinates = self.attempted_move("N")
     @unpreferred_direction_head.push('north') if board.enemy_head_adjacent?(coordinates)
     if board.position_is_safe?(coordinates)
-      if board.north_safe.length < 10
+      if board.north_safe.length < 15
         @unpreferred_direction.push('north')
       elsif !@unpreferred_direction_head.include?('north')
         @preferred_direction.push('north')

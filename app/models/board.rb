@@ -44,7 +44,7 @@ class Board < GameObject
   end
 
     def generate_safe_west_locations(coords)
-      return if @west_safe.length > 10
+      return if @west_safe.length > 15
       if position_is_safe?(coords) && !(@west_safe.include?(coords))
         @west_safe.push(coords)
         generate_safe_west_locations([coords[0] + 1,coords[1]])
@@ -55,7 +55,7 @@ class Board < GameObject
     end
 
   def generate_safe_east_locations(coords)
-    return if @east_safe.length > 10
+    return if @east_safe.length > 15
     if position_is_safe?(coords) && !(@east_safe.include?(coords))
       @east_safe.push(coords)
       generate_safe_east_locations([coords[0] + 1,coords[1]])
@@ -66,7 +66,7 @@ class Board < GameObject
   end
 
   def generate_safe_south_locations(coords)
-    return if @south_safe.length > 10
+    return if @south_safe.length > 15
     if position_is_safe?(coords) && !(@south_safe.include?(coords))
       @south_safe.push(coords)
       generate_safe_south_locations([coords[0] + 1,coords[1]])
@@ -77,7 +77,7 @@ class Board < GameObject
   end
 
   def generate_safe_north_locations(coords)
-    return if @north_safe.length > 10
+    return if @north_safe.length > 15
     if position_is_safe?(coords) && !(@north_safe.include?(coords))
       @north_safe.push(coords)
       generate_safe_north_locations([coords[0] + 1,coords[1]])
@@ -98,7 +98,6 @@ class Board < GameObject
         danger_areas.push [head[0], head[1] - 1]
       end
     end
-    binding.pry
     danger_areas.include? coords
   end
 
@@ -116,6 +115,6 @@ class Board < GameObject
   private
 
   def position_out_of_bounds?(coords)
-     coords[0] < 0 || coords[1] < 0 || coords[0] > width || coords[1] > height
+     coords[0] < 0 || coords[1] < 0 || coords[0] > width - 1 || coords[1] > height - 1
   end
 end
