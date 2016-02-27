@@ -46,6 +46,7 @@ class Snake
   def move(board)
     # coords = [board.width / 2, board.height / 2]
     # desired_direction_order(coords).select { |direction| self.send "#{direction}_safe?", board }[0]
+    board.generate_safe_locations(@head)
     desired_direction_order(priorities(board)).each { |direction| self.send "#{direction}_safe?", board }
     return @preferred_direction[0] if @preferred_direction.any?
     return @unpreferred_direction[0] if @unpreferred_direction.any?
@@ -67,7 +68,7 @@ class Snake
     if board.position_is_safe?(coordinates)
       if board.south_safe.length < 10
         @unpreferred_direction.push('south')
-      else
+      elsif !@unpreferred_direction_head.include?('south')
         @preferred_direction.push('south')
       end
     end
@@ -80,7 +81,7 @@ class Snake
     if board.position_is_safe?(coordinates)
       if board.west_safe.length < 10
         @unpreferred_direction.push('west')
-      else
+      elsif !@unpreferred_direction_head.include?('west')
         @preferred_direction.push('west')
       end
     end
@@ -93,7 +94,7 @@ class Snake
     if board.position_is_safe?(coordinates)
       if board.east_safe.length < 10
         @unpreferred_direction.push('east')
-      else
+      elsif !@unpreferred_direction_head.include?('east')
         @preferred_direction.push('east')
       end
     end
@@ -106,7 +107,7 @@ class Snake
     if board.position_is_safe?(coordinates)
       if board.north_safe.length < 10
         @unpreferred_direction.push('north')
-      else
+      elsif !@unpreferred_direction_head.include?('north')
         @preferred_direction.push('north')
       end
     end

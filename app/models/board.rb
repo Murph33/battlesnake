@@ -24,16 +24,23 @@ class Board < GameObject
   def position_is_safe?(coords)
     return false if @walls.include? coords
     return false if position_out_of_bounds? coords
-    return false if @enemy_snakes.include? coords
+    return false if @enemy_snakes.any? { |snake| snake["coords"].include? coords }
     return false if @our_snake.include? coords
     true
   end
 
   def generate_safe_locations(coords)
-    self.generate_safe_west_locations(coords)
-    self.generate_safe_south_locations(coords)
-    self.generate_safe_north_locations(coords)
-    self.generate_safe_east_locations(coords)
+    @west_safe = []
+    @south_safe = []
+    @north_safe = []
+    @east_safe = []
+    x = coords[0]
+    y = coords[1]
+    self.generate_safe_east_locations([x + 1, y])
+    self.generate_safe_west_locations([x - 1, y])
+    self.generate_safe_south_locations([x, y + 1])
+    self.generate_safe_north_locations([x, y - 1])
+
   end
 
     def generate_safe_west_locations(coords)
@@ -84,12 +91,14 @@ class Board < GameObject
     danger_areas = []
     if @enemy_snakes.any?
       @enemy_snakes.each do |s|
-        danger_areas.push [s[0][0] + 1, s[0][1]]
-        danger_areas.push [s[0][0] - 1, s[0][1]]
-        danger_areas.push [s[0][0], s[0][1] + 1]
-        danger_areas.push [s[0][0], s[0][1] - 1]
+        head = s["coords"][0]
+        danger_areas.push [head[0] + 1, head[1]]
+        danger_areas.push [head[0] - 1, head[1]]
+        danger_areas.push [head[0], head[1] + 1]
+        danger_areas.push [head[0], head[1] - 1]
       end
     end
+    binding.pry
     danger_areas.include? coords
   end
 
