@@ -25,10 +25,11 @@ class SnakesController < ApplicationController
     params["walls"].each { |wall| board.walls.push wall } if params["walls"]
     params["food"].each { |food| board.food.push food } if params["food"]
     params["gold"].each { |gold| board.gold.push gold } if params["gold"]
-    params["snakes"].each { |snake| snake["coords"].each { |coord| board.snakes.push coord } }
+    enemy_snake_params.each { |snake| snake["coords"].each { |coord| board.enemy_snakes.push coord } }
+    our_snake_params["coords"].each { |coord| board.our_snake.push coord }
     board.height = params["height"]
     board.width = params["width"]
-    enemy_snake_params.each { |params| params["coords"].each { |coord| board.snakes.push coord } }
+
     move = our_snake.move board
     taunt = board.closest_food our_snake.head
 

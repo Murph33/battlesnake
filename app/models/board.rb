@@ -1,6 +1,6 @@
 # helo
 class Board < GameObject
-  attr_accessor :width, :height, :snakes, :food, :walls, :gold
+  attr_accessor :width, :height, :enemy_snakes, :food, :walls, :gold, :our_snake, :north_safe, :east_safe, :west_safe, :south_safe
 
   def initialize(width: nil, height: nil)
     @width = width
@@ -9,17 +9,88 @@ class Board < GameObject
     @food = []
     @gold = []
     @snakes = []
+    @our_snake = []
+    @enemy_snakes = []
+    @west_safe = []
+    @south_safe = []
+    @north_safe = []
+    @east_safe = []
   end
 
-  def our_snake
-    snakes.detect { |snake| snake.id == Snake::SNAKE_ID }
-  end
+  # def our_snake
+  #   snakes.detect { |snake| snake.id == Snake::SNAKE_ID }
+  # end
 
   def position_is_safe?(coords)
     return false if @walls.include? coords
     return false if position_out_of_bounds? coords
-    return false if @snakes.include? coords
+    return false if @enemy_snakes.include? coords
+    return false if @our_snake.include? coords
     true
+  end
+
+  def generate_safe_locations(coords)
+    self.generate_safe_west_locations(coords)
+    self.generate_safe_south_locations(coords)
+    self.generate_safe_north_locations(coords)
+    self.generate_safe_east_locations(coords)
+  end
+
+    def generate_safe_west_locations(coords)
+      return if @west_safe.length > 10
+      if position_is_safe?(coords) && !(@west_safe.include?(coords))
+        @west_safe.push(coords)
+        generate_safe_west_locations([coords[0] + 1,coords[1]])
+        generate_safe_west_locations([coords[0] - 1,coords[1]])
+        generate_safe_west_locations([coords[0],coords[1] + 1])
+        generate_safe_west_locations([coords[0],coords[1] - 1])
+      end
+    end
+
+  def generate_safe_east_locations(coords)
+    return if @east_safe.length > 10
+    if position_is_safe?(coords) && !(@east_safe.include?(coords))
+      @east_safe.push(coords)
+      generate_safe_east_locations([coords[0] + 1,coords[1]])
+      generate_safe_east_locations([coords[0] - 1,coords[1]])
+      generate_safe_east_locations([coords[0],coords[1] + 1])
+      generate_safe_east_locations([coords[0],coords[1] - 1])
+    end
+  end
+
+  def generate_safe_south_locations(coords)
+    return if @south_safe.length > 10
+    if position_is_safe?(coords) && !(@south_safe.include?(coords))
+      @south_safe.push(coords)
+      generate_safe_south_locations([coords[0] + 1,coords[1]])
+      generate_safe_south_locations([coords[0] - 1,coords[1]])
+      generate_safe_south_locations([coords[0],coords[1] + 1])
+      generate_safe_south_locations([coords[0],coords[1] - 1])
+    end
+  end
+
+  def generate_safe_north_locations(coords)
+    return if @north_safe.length > 10
+    if position_is_safe?(coords) && !(@north_safe.include?(coords))
+      @north_safe.push(coords)
+      generate_safe_north_locations([coords[0] + 1,coords[1]])
+      generate_safe_north_locations([coords[0] - 1,coords[1]])
+      generate_safe_north_locations([coords[0],coords[1] + 1])
+      generate_safe_north_locations([coords[0],coords[1] - 1])
+    end
+  end
+
+  def enemy_head_adjacent?(coords)
+    danger_areas = []
+    if @enemy_snakes.any?
+      @enemy_snakes.each do |s|
+        danger_areas.push [s[0][0] + 1, s[0][1]]
+        danger_areas.push [s[0][0] - 1, s[0][1]]
+        danger_areas.push [s[0][0], s[0][1] + 1]
+        danger_areas.push [s[0][0], s[0][1] - 1]
+      end
+    end
+    danger_areas.include? coords
   end
 
   def closest_food coords

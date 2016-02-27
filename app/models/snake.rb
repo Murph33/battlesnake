@@ -2,7 +2,7 @@
 class Snake
   SNAKE_ID = "5d936817-6c91-4708-99c9-c7e77f61fcf7"
 
-  attr_reader :id, :head, :body, :health, :south_tried, :north_tried, :west_tried, :east_tried
+  attr_reader :id, :head, :body, :health, :south_tried, :north_tried, :west_tried, :east_tried, :unpreferred_direction_head, :unpreferred_direction, :preferred_direction
 
   def initialize(head = nil, body = nil, id=nil, health=nil)
     @head = head
@@ -13,7 +13,11 @@ class Snake
     @north_tried = false
     @west_tried = false
     @east_tried = false
+    @preferred_direction = []
+    @unpreferred_direction = []
+    @unpreferred_direction_head = []
   end
+
 
 
   def attempted_move direction
@@ -39,11 +43,13 @@ class Snake
     end
   end
 
-
   def move(board)
     # coords = [board.width / 2, board.height / 2]
     # desired_direction_order(coords).select { |direction| self.send "#{direction}_safe?", board }[0]
-    desired_direction_order(priorities(board)).select { |direction| self.send "#{direction}_safe?", board }[0]
+    desired_direction_order(priorities(board)).each { |direction| self.send "#{direction}_safe?", board }
+    return @preferred_direction[0] if @preferred_direction.any?
+    return @unpreferred_direction[0] if @unpreferred_direction.any?
+    return @unpreferred_direction_head[0] if @unpreferred_direction_head.any?
   end
 
 
@@ -57,31 +63,58 @@ class Snake
   def south_safe? board
     @south_tried = true
     coordinates = self.attempted_move("S")
-    board.position_is_safe?(coordinates)
+    @unpreferred_direction_head.push('south') if board.enemy_head_adjacent?(coordinates)
+    if board.position_is_safe?(coordinates)
+      if board.south_safe.length < 10
+        @unpreferred_direction.push('south')
+      else
+        @preferred_direction.push('south')
+      end
+    end
   end
 
   def west_safe? board
     @west_tried = true
     coordinates = self.attempted_move("W")
-
-    board.position_is_safe?(coordinates)
+    @unpreferred_direction_head.push('west') if board.enemy_head_adjacent?(coordinates)
+    if board.position_is_safe?(coordinates)
+      if board.west_safe.length < 10
+        @unpreferred_direction.push('west')
+      else
+        @preferred_direction.push('west')
+      end
+    end
   end
 
   def east_safe? board
     @east_tried = true
     coordinates = self.attempted_move("E")
-    board.position_is_safe?(coordinates)
+    @unpreferred_direction_head.push('east') if board.enemy_head_adjacent?(coordinates)
+    if board.position_is_safe?(coordinates)
+      if board.east_safe.length < 10
+        @unpreferred_direction.push('east')
+      else
+        @preferred_direction.push('east')
+      end
+    end
   end
 
   def north_safe? board
     @north_tried = true
     coordinates = self.attempted_move("N")
-    board.position_is_safe?(coordinates)
+    @unpreferred_direction_head.push('north') if board.enemy_head_adjacent?(coordinates)
+    if board.position_is_safe?(coordinates)
+      if board.north_safe.length < 10
+        @unpreferred_direction.push('north')
+      else
+        @preferred_direction.push('north')
+      end
+    end
   end
 
   def priorities board
     return board.gold.first if board.gold.any?
-    return board.closest_food(@head) if health <= 95
+    return board.closest_food(@head) if health <= 97
     [board.width / 2, board.height / 2]
   end
 
@@ -94,7 +127,7 @@ class Snake
     order.push "east" if @head[0] < x_desired
     order.push "north" if @head[1] > y_desired
     order.push "south" if @head[1] < y_desired
-    order.shuffle!
+    # order.shuffle!
     add_these = %w(north east south west).select { |word| !order.include? word }
     add_these.each { |word| order.push word }
     order
