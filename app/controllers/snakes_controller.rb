@@ -11,7 +11,7 @@ class SnakesController < ApplicationController
 
   def start
     response_object = {
-      taunt: "BONESAW IS READY!!why no work!?"
+      taunt: "BONESAW IS READY!"
     }
 
     render json: response_object
@@ -22,25 +22,16 @@ class SnakesController < ApplicationController
     our_snake_params = params["snakes"].find { |snake| snake["id"] == Snake::SNAKE_ID }
     our_snake = Snake.new our_snake_params[:coords][0], our_snake_params[:coords][1..-1], our_snake_params[:id], our_snake_params[:health]
     board = Board.new
+    board.height = params["height"]
+    board.width = params["width"]
     params["walls"].each { |wall| board.walls.push wall } if params["walls"]
     params["food"].each { |food| board.food.push food } if params["food"]
     params["gold"].each { |gold| board.gold.push gold } if params["gold"]
-    # enemy_snake_params.each { |snake| snake["coords"].each { |coord| board.enemy_snakes.push coord } }
     enemy_snake_params.each { |snake| board.enemy_snakes.push snake }
     our_snake_params["coords"].each { |coord| board.our_snake.push coord }
-    board.height = params["height"]
-    board.width = params["width"]
-
     move = our_snake.move board
     taunt = [our_snake.preferred_direction, our_snake.unpreferred_direction]
 
-    # walls: board.walls,
-    # food: board.food,
-    # gold: board.gold,
-    # our_snake: our_snake,
-    # enemy_snake: board.snakes
-    puts our_snake.inspect
-    puts board.inspect
     response_object = {
       move: move,
       taunt: taunt
@@ -49,27 +40,7 @@ class SnakesController < ApplicationController
   end
 
   def end
-
-    response_object = {
-
-    }
+    response_object = {}
     render json: response_object
   end
 end
-
-# OTHER SNAKE
-
-# ,
-#     {
-#       "id": "5d936817-6c91-4708-99c9-c7e77f61fcf7ggggggg",
-#       "name": "Well Documented Snake",
-#       "status": "alive",
-#       "message": "Moved north",
-#       "taunt": "Let's rock!",
-#       "age": 56,
-#       "health": 83,
-#       "coords": [ [0, 1], [0, 2], [0, 3], [0, 4] ],
-#       "kills": 4,
-#       "food": 12,
-#       "gold": 2
-#       }

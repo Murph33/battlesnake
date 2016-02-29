@@ -1,3 +1,0 @@
-class GoldPiece < BoardObject
-
-end

@@ -1,3 +1,0 @@
-class FoodItem < BoardObject
-
-end
